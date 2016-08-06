@@ -1,0 +1,2 @@
+# pkmngoanjian
+Macro for PokemonGo
