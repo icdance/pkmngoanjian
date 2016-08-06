@@ -1,0 +1,697 @@
+Dim Cords, times, max, indexi, indexmax, poki, bluereboot
+bluereboot=0
+times = 0
+max = 100
+
+//Pokemons	
+Dim Pokemon,Pokemon2,pathpoke
+Pathpoke = "/mnt/shared/Other/Pokemons_c.txt"
+Pokemon2 = File.ReadLines(Pathpoke)
+//Pokemon = Split(pokemon2(0), ",")
+pokemon = array("F4B69A","BFA798","9DB3D4","A7BEDC","CD856A","BF9F92","BCA488","FFF9BE","FFEDB6","E2D2C4","38C2E4","D1D9FF","B4C0B5","B5A379","BAA980","9EB2B3","E6E674","6788AB","316095","C7C1ED","58A6FF","665452","D67D89","C7C1ED","5371A5","949578","92BCDF","48B7DF","518134","54D0F8","316191","91D5E5","9BA7AF","54F0F7","B47F57","37D2F0","9CFFCD","8F5E7E","1D77B8","CDC7EE","357DCE","37C1EE","528435","59CFF7","BBABE9","8D5780","BC9348","5EA4FF","84A5E2","BF79B8")
+
+//Maps
+Dim Path,CoordsLine
+Path = "/mnt/shared/Other/Rhodes.txt"
+CoordsLine = File.ReadLines(Path)
+
+
+//Inventory, A,KeepAmount (Max, Potion, Super, Hyper, Reave, Pokeball, Greatball, Ultraball, Berry)
+Dim A, ka
+A = Array(1, 1, 1, 1, 1, 1, 1, 0, 1) // set to zero if you don't want to discard it
+ka =Array(200, 0, 0, 50, 0, 0, 0, 200, 80)
+
+Dim digital(),bagCode(),fColor(),bagname()
+digital(0)="-9|12|6C6944,8|8|6C6944,-8|18|6C6944,0|25|6C6944,7|20|6C6944"
+digital(1)="8|-6|6C6944,8|6|6C6944,8|16|6C6944,1|18|6C6944,13|18|6C6944"
+digital(2)="6|-3|6C6944,12|3|6C6944,6|12|6C6944,-1|20|6C6944,12|20|6C6944"
+digital(3)="11|-4|6C6944,6|7|6C6944,14|16|6C6944,5|20|6C6944,-1|15|6C6944"
+digital(4)="6|-7|6C6944,14|-15|6C6944,8|2|6C6944,17|2|6C6944,14|9|6C6944"
+digital(5)="10|0|6C6944,-1|9|6C6944,10|15|6C6944,2|22|6C6944,-2|21|6C6944"
+digital(6)="-6|7|6C6944,-11|18|6C6944,-2|24|6C6944,5|15|6C6944,-3|10|6C6944"
+digital(7)="8|0|6C6944,16|0|6C6944,12|9|6C6944,8|15|6C6944,3|24|6C6944"
+digital(8)="-7|-6|6C6944,7|-6|6C6944,-8|5|6C6944,7|5|6C6944,-5|2|6C6944"
+digital(9)="-6|1|6C6944,-11|-6|6C6944,-1|-12|6C6944,-3|7|6C6944,-7|12|6C6944"
+
+digital(10)="-9|12|A0A289-101010,8|8|A0A289-101010,-8|18|A0A289-101010,0|25|A0A289-101010,7|20|A0A289-101010"
+digital(11)="8|-6|A0A289-101010,8|6|A0A289-101010,8|16|A0A289-101010,1|18|A0A289-101010,13|18|A0A289-101010"
+digital(12)="6|-3|A0A289-101010,12|3|A0A289-101010,6|12|A0A289-101010,-1|20|A0A289-101010,12|20|A0A289-101010"
+digital(13)="11|-4|A0A289-101010,6|7|A0A289-101010,14|16|A0A289-101010,5|20|A0A289-101010,-1|15|A0A289-101010"
+digital(14)="6|-7|A0A289-101010,14|-15|A0A289-101010,8|2|A0A289-101010,17|2|A0A289-101010,14|9|A0A289-101010"
+digital(15)="10|0|A0A289-101010,-1|9|A0A289-101010,10|15|A0A289-101010,2|22|A0A289-101010,-2|21|A0A289-101010"
+digital(16)="-6|7|A0A289-101010,-11|18|A0A289-101010,-2|24|A0A289-101010,5|15|A0A289-101010,-3|10|A0A289-101010"
+digital(17)="8|0|A0A289-101010,16|0|A0A289-101010,12|9|A0A289-101010,8|15|A0A289-101010,3|24|A0A289-101010"
+digital(18)="-7|-6|A0A289-101010,7|-6|A0A289-101010,-8|5|A0A289-101010,7|5|A0A289-101010,-5|2|A0A289-101010"
+digital(19) = "-6|1|A0A289-101010,-11|-6|A0A289-101010,-1|-12|A0A289-101010,-3|7|A0A289-101010,-7|12|A0A289-101010"
+
+bagcode(0)="0|26|6C6944,13|20|6C6944,102|0|6C6944" //Max potion
+bagCode(1)="73|1|6C6944,127|27|6C6944,406|-12|626362-020202" //Potion
+bagCode(2)="134|21|726F4C,41|21|6C6944,208|-5|6C6944"	//Super potion
+bagCode(3)="38|31|6C6944,141|4|6C6944,213|0|6C6944"	//Hyper potion
+bagCode(4)="34|15|6C6944,78|-1|6C6944,128|14|6C6944"	//Revive
+bagCode(5)="86|-1|96957A-040104,116|24|96957A-040104,181|0|96957A-040104"	//Pokeball
+bagCode(6)="105|-1|96957A-040104,131|13|96957A-040104,171|7|96957A-040104"	//GreatBall
+bagCode(7)="34|23|96957A-040104,121|-2|96957A-040104,185|22|96957A-040104"	//UltraBall
+bagCode(8)="81|24|96957A-040104,136|14|96957A-040104,201|28|96957A-040104"	//Berry
+
+fColor(0) = "96957A-040104"
+fColor(1) = "6C6944"
+fcolor(2) = "A0A289-101010"
+
+bagName(0)="Max potion"
+bagName(1)="Potion"
+bagName(2)="Super potion"
+bagName(3)="Hyper potion"
+bagName(4)="Revive"
+bagName(5)="Pokeball"
+bagName(6)="GreatBall"
+bagName(7)="UltraBall"
+bagName(8)="Berry"
+
+//screen
+Dim Page(15)
+Page(0)="315|1182|DFDFDF,322|1182|FFFFFF,405|1182|DFDFDF" //Ready ==
+Page(1)="570|1063|766609,571|1063|76660A,563|1087|9C8D28" //Menu ==
+Page(2)="609|1234|96861D,645|1199|96861D,683|1234|96861D" //Pokepmon -Gx
+Page(3)="230|493|6C6944,491|493|6C6944,362|493|6C6944" //Nearby ==
+Page(4)="415|288|FAFEFA,422|299|F6FDF6,326|299|F6FCF6" //Collect -Wx
+Page(5)="76|94|96871C,83|105|96871C,91|106|96871C" //Combat ==
+Page(6)="44|75|1B11B5,56|79|CE933B,48|88|CE943B" //Map1 ==
+Page(7)="318|105|6C6944,348|124|6C6944,384|105|6C6944" //Bag ==
+page(8)="272|640|FFFFFF,368|647|FFFFFF,325|642|B07FE3" //Bag full ==
+page(8)="597|1187|B69582,614|1263|FFFFFF,653|1190|645FEA" //desktop ==
+page(9)="201|988|3B3B3B,269|973|888888,355|986|9CBC1A" //p2m
+page(10)="377|857|9FD464,353|857|DEFFE4,382|868|DEFFE4" //catch1
+page(13)="21|501|FAFAFA,495|660|B7ED6D,480|669|FAFAFA" //caught2 ==
+page(14)="368|728|DEFFE4,557|728|AACC24,380|738|DEFFE4" //welcomescreen
+
+//Account "FFFFFF"
+Dim Account(3)
+Account(0)="52|-1|FFFFFF,63|28|FFFFFF,124|-2|FFFFFF,201|0|FFFFFF" //icds
+Account(1)="43|-8|FFFFFF,71|-7|FFFFFF,152|23|FFFFFF,206|-9|FFFFFF" //miri
+Account(2)="53|-1|FFFFFF,130|1|FFFFFF,156|28|FFFFFF,232|9|FFFFFF" //icdt
+Account(3)="52|-1|FFFFFF,104|21|FFFFFF,165|-1|FFFFFF,177|41|FFFFFF" //ily
+
+
+
+//swipe
+Sub swp(d)
+    If d = 0 Then 
+        Exit Sub
+    ElseIf d = 1 Then 
+        Swipe 650, 650, 100, 650
+        Delay 100
+    Else
+        Swipe 550, 1200, 550, 500
+ 		
+    End If
+End Sub
+
+//inventory nextpage
+Sub nextpage()
+    Swipe 600, 1100, 600, 800
+    Delay 800
+End Sub
+
+//TapX
+Sub tapX()
+    Tap 360, 1175
+    Delay 500
+End Sub
+
+//turnarrount
+Sub turn()
+    TouchDown 360, 600, 1
+    TouchMove 680, 930, 1, 800
+    TouchUp 1
+End Sub
+
+//gps
+Sub sgps()
+    KeyPress "Home"
+    Delay 50
+    KeyPress "Home"
+    Call waitpage(6)
+End Sub
+
+//reset compas
+Sub compas()
+    If CmpColorEx("653|146|4232E6,653|193|ABB2AB", 1) = 0 Then
+        Tap 654, 170
+        Delay 200
+        TracePrint "Compas Corrected"
+    End If
+End Sub
+
+//waitpage
+Sub waitpage(n)
+    TracePrint "Waiting Page: "&n
+    Dim timeout
+    timeout = 1
+    While timeout > 0 and timeout < 100
+        If CmpColorEx(page(n), 1) = 1 Then
+            Delay 50
+            Exit Sub
+        Else
+            Delay 100
+            timeout = timeout + 1
+        End If
+    Wend
+End Sub
+
+//check unnormal
+Sub checksta()
+    TracePrint "Checking Status"
+    Dim error
+    error = 0
+    Rem Checkagain
+    If CmpColorEx(Page(0), 1) = 1 Then 
+        TracePrint "Ready to Go"
+        Exit Sub
+    Else 
+        error = error + 1
+        If error > 60 Then 
+            TracePrint "Reboot Game"
+            KillApp "com.nianticlabs.pokemongo"
+            Delay 2000
+            Call login()
+            Delay 3000
+            error = 0
+        End If
+        TracePrint "Something is wrong"
+        If CmpColorEx(Page(5), 1) = 1 Then        //Combat -------------------------------------------------------------------
+            Call combat()
+            Delay 400
+            TracePrint "Exit combat field"
+        Else 
+            Call tapX()
+            Delay 500
+        End If
+    End If
+    TracePrint "All situation cleared"
+    Delay 400
+    Goto Checkagain
+End Sub
+
+//changemasterball
+Sub change()
+    Dim changbX,changbY,changeball_timeout
+    changeball_timeout = 0
+    While changeball_timeout < 10
+    	FindMultiColor 0,0,0,0, "907F2A","-11|7|887700,12|5|887700,0|13|96851F", 2, 1, changbX, changbY
+        	If changbX > -1 Then 
+            	TracePrint "Changing ball"
+            	Delay 50
+            	Tap changbX, changbY //
+            	Delay 550
+            	Dim changeballX,changeballY
+            	FindMultiColor 250,180,500,900, "6C6944","12|24|6C6944,52|-2|6C6944,53|26|6C6944,65|-2|6C6944", 3, 1, changeballX, changeballY
+                	If changeballX > -1 Then
+                    	Tap changeballx, changebally
+                    	Delay 400
+                	Else 
+                    	Tap 360, 300            
+                	End If
+                Exit while
+        	Else 
+            	changeball_timeout = changeball_timeout + 1
+            	Delay 500
+            	Dim catchedX,catchedY
+            	FindMultiColor 0,0,0,0, "DEFFE4","-291|0|95DBA2,275|-2|AACC24", 0, 1, catchedX, catchedY
+            	If catchedX > -1 Then
+                	TracePrint "Gotcha"
+                	Delay 100
+                	Tap catchedX, catchedY
+                	Delay 300
+                	Call transfer()
+                	Exit while
+            	End If
+        	End If    	
+    Wend
+End Sub
+
+//throw
+Sub throw()
+	
+End Sub
+
+//running
+Sub waitstop()
+    Dim stimeout
+    stimeout = 0
+    While stimeout < 5
+        Dim c1,c2,c3
+        c1 = GetPixelColor(710, 290)
+        Delay 750
+        c2 = GetPixelColor(710, 290)
+        Delay 750
+        c3 = GetPixelColor(710, 290)
+        If c1 = c2 and c2 = c3 Then 
+            TracePrint "Stopped..."
+            Exit Sub
+        End If
+        TracePrint "Running..."
+        stimeout = stimeout + 1
+    Wend
+End Sub
+
+//startgame 0:1:2:3:
+Sub login()
+    Dim serverdown
+    serverdown = 0
+    Rem restartgame
+    TracePrint "Login game..."
+    RunApp "com.nianticlabs.pokemongo"
+    Dim err
+    err = 1
+    While err > 0
+        Call waitpage(14)
+        If CmpColorEx(page(14), 1) = 1 Then 
+        	Delay 100
+        	Tap 370,730
+            Delay 50
+            err = 0
+            Exit Sub
+        Else 
+            Delay 2000
+            err = err + 1
+            If err > 60 Then 
+                KillApp "com.nianticlabs.pokemongo"
+                Delay 2000
+                serverdown = serverdown + 1
+                If serverdown > 5 Then 
+                    serverdown = 0
+                    Delay 900000
+                End If
+                Goto restartgame
+            End If
+        End If
+    Wend
+End Sub
+
+//combatmode
+Sub combat()
+    Delay 1500
+    TracePrint "Combat Mode"
+    Dim catch,waitbattlemode
+    catch = 1
+    waitbattlemode = 0
+	While waitbattlemode <15
+    	If CmpColorEx(Page(5), 1) = 1 Then
+        	Exit While
+        ElseIf CmpColorEx(Page(0), 1) = 1 Then
+        	Exit Sub
+        Else 
+        	Dim exitcom1X,exitcom1Y
+			FindMultiColor 320,1100,400,1250, "96871C","16|2|C1F48E,22|2|97871C,15|9|97871C", 0, 1, exitcom1X, exitcom1Y
+			If exitcom1X > -1 Then
+				Tap exitcom1X, exitcom1Y
+				Exit Sub
+			End If
+			Dim exitcom2X,exitcom2Y
+			FindMultiColor 0,0,0,0, "E1F1E0","7|-1|998822,14|-1|E1F1E0,7|-8|E1F1E0", 0, 1, exitcom2X, exitcom2Y
+			If exitcom2X > -1 Then
+				Tap exitcom2X, exitcom2Y
+				Exit Sub
+			End If
+    	End If
+    	Delay 400
+    	waitbattlemode = waitbattlemode + 1	
+	Wend
+    If CmpColorEx(page(5), 1) = 0 Then 
+        Exit Sub
+    End If
+    While catch > 0 and catch < 20
+        TracePrint "Start catching... "&catch&" Try"
+        Delay 50
+        catch = catch + 1
+//        If catch = 3 Then 
+//			Call change()
+//        End If
+        Delay 100
+        Swipe 360,1279,360,-500,70
+        Delay 2000
+        Dim catchtime
+        catchtime = 0
+        While catchtime < 17
+            Dim catchX,catchY
+            FindMultiColor 0,0,0,0, "DEFFE4","-291|0|95DBA2,275|-2|AACC24", 0, 1, catchX, catchY
+            If catchX > -1 And catchY > -1 Then
+                TracePrint "Gotcha"
+                catch = 0
+                Delay 100
+                Tap catchX, catchY
+                Delay 300
+                Call transfer()
+                Exit Sub       
+            Else 
+                catchtime = catchtime + 1 
+                If CmpColorEx(Page(5), 1) = 1 Then
+                    Exit While
+                End If
+                Delay 500
+            End If
+        Wend
+        If CmpColorEx(Page(0), 1) = 1 Then
+            Exit Sub
+        End If
+    Wend    	
+
+    If CmpColorEx(page(5), 1) = 1 Then
+        Tap 80,100
+        Delay 50
+        Exit Sub
+    End If
+End Sub
+
+//select pokemon
+Sub transfer()
+    Call waitpage(13)
+//    If CmpColorEx("630|346|FFFFFF,632|353|FFFFFF", 1) = 0 Then
+//        TracePrint "Trasfer to Dr."
+//        Rem swpagain
+//        Call swp(2)
+//        Delay 500	
+//        Dim discX,discY
+//        FindMultiColor 0,0,0,0, "DEFFE4","131|0|AACC24,137|-1|FAFAFA", 0, 1, discX, discY
+//        If discX > -1 And discY > -1 Then
+//            TracePrint "Discard"
+//            Tap discX, discY
+//        Else 
+//            Delay 500
+//            Goto swpagain
+//        End If
+//        Rem clickyes
+//        Delay 500
+//        Dim int2X,int2Y
+//        FindMultiColor 0,0,0,0, "DEFFE4","173|-1|AACC24,180|0|EEFFF1", 0, 1, int2X, int2Y
+//        If int2X > -1 And int2Y > -1 Then
+//            Tap int2X,int2Y
+//        Else 
+//        	TracePrint "Cant Trasfer"
+//            Dim canttranX,canttranY
+//            FindMultiColor 0,0,0,0, "DBFDDF","-276|3|829754,39|10|DEFFE4,38|-9|DEFFE4", 0, 1, canttranX, canttranY
+//            If canttranX > -1 And canttranY > -1 Then
+//                Tap canttranX,canttranY
+//            Else 
+//                Goto clickyes
+//            End If
+//        End If
+//    Else
+        Tap 360,1180
+        TracePrint "Saved to Index"
+//    End If
+    Delay 400
+End Sub
+
+//Auto Catch
+Sub catch()
+	TracePrint "searching pokemons"
+    Call checksta()
+    For Each poki In pokemon
+        Dim pokiX,pokiY
+        FindColor 0,500,720,1020, poki ,0, 1, pokiX, pokiY
+        If pokiX > -1  Then 
+            TracePrint "Find a pokemon at ("&pokiX&","&pokiY&")"
+            Tap pokiX, pokiY
+            Delay 200
+            Call combat()
+//        Else 
+//        	TracePrint "cant"
+        End If
+        Rem nextpoki
+    Next
+End Sub
+
+//jump
+Function nextspot(pos)
+    TracePrint "Next Spot"&17-pos&"  <===================================="
+    Call checkSta()
+    Dim posY, pd
+    pd = 0
+    If pos > 6 Then 
+        pd = 0
+        pos = 17 - pos
+    Else
+        pos = 6 - pos
+        pd = 2
+    End If    
+    posY = 210 + pos * 101
+    If pd = 2 Then 
+        posY = 610 + pos *101
+    End If
+    Call sgps()
+    Tap 675,76
+    Delay 900
+    Tap 600,300
+    Delay 1000
+    Call swp(pd)
+    Delay 800
+    Tap 400, posY
+    Delay 1000
+    Tap 660,1176
+    Delay 2500
+End Function
+
+//manage inventory
+Sub cleanbag(bagarray)
+    TracePrint "Cleanning bag..."
+    Call checkSta()
+    Call tapX()
+    Call waitpage(1)
+    Tap 560,1060 //bag
+    Call waitpage(7)
+    Dim bag,numbcolor,check(),i,count
+    count = 0
+    For i = 0 To 8
+        If bagarray(i) = 1 Then 
+            count = count + 1			
+        End If
+        check(i) = bagarray(i)
+    Next
+    TracePrint "total num of remove:"&count
+    For i = 0 To 2
+        For bag = 0 To 8
+            If check(bag) = 0 Then 
+                Goto nextbag
+            End If
+            Dim in1tX,in1tY,fi,ct
+            If bag < 5 Then 
+                fi = 1
+                numbcolor = fcolor(1)
+            Else 
+                fi = 0
+                numbcolor = fcolor(2)
+            End If
+            Delay 100
+            FindMultiColor 0,0,720,1150, fcolor(fi),bagCode(bag), 0, 1, in1tX, in1tY
+            If in1tX > -1 And in1tY > -1 Then 
+                //					TracePrint "Find "&bagname(bag)
+                Dim slot, amount
+                amount = ""
+                For slot = 0 To 2
+                    Dim num,digi,digitemp()
+                    digi = ""
+                    For num = 0 To 9
+                        If bag > 4 Then 
+                        	digitemp(num)=digital(num+10)
+                        Else 
+                        	digitemp(num)=digital(num)
+                        End If
+                        Dim in2tX,in2tY
+                        FindMultiColor 82+20*slot,in1ty+80,100+22*slot,in1ty+150, numbcolor,digitemp(num), 3, 1, in2tX, in2tY
+                        If in2tX > -1 Then 
+                            digi = cstr(num)
+                        End If					
+                    Next
+                    amount = amount & digi
+                Next	
+                amount = cint(amount)
+                TracePrint bagname(bag)&":"&amount
+                amount=amount-ka(bag)
+                ct = amount * 50
+                If ct > 10000 Then 
+                    ct = 10000
+                ElseIf ka(bag)<>0 and ct < 500 and ct>0 Then
+                    ct = 500
+                End If
+                If ct > 0 Then 
+                    Delay 200
+                    Tap in1tX+440, in1tY
+                    Delay 500
+                    Touch 528, 573, ct+100
+                    Delay 200
+                    Tap 340, 800
+                    Delay 400
+                    TracePrint amount&" "&bagName(bag)&" Removed"
+                End If
+                check(bag) = 0
+                count = count - 1
+                If count = 0 Then 
+                    Call tapX()
+                    Call waitpage(0)
+                    Exit Sub
+                End If 
+            End If
+            Rem nextbag
+        Next
+        Delay 100
+        Call nextpage()
+        Delay 1000
+    Next
+    Call tapX()
+    Call waitpage(0)
+End Sub
+
+//Pokestop
+Sub collect(Cord)
+    If bluereboot > 10 Then 
+        bluereboot = 0
+        TracePrint "Reboot Game as cant swipe"
+        KillApp "com.nianticlabs.pokemongo"
+        Delay 2000
+        Call login()
+        Delay 3000
+    End If
+    Call checksta()
+    Call compas()
+    Dim i, timeout
+    For i = 0 To 2
+        Dim cX, cY, Color1, Color2, Color3, Color4, waitBlue, waitPur
+        cX = Cint(Cord(i * 2))
+        cY = Cint(Cord(i * 2 + 1))
+        TracePrint "Start Collecting ("&cX&","&cY&")"
+        If cX = 0 Then 
+            Exit Sub
+        End If
+        Delay 50
+        Tap cX, cY
+        Delay 50
+        Tap cX, cY
+        Delay 1200
+        TracePrint "Tapped coords"
+        timeout = 0
+        waitBlue = 0
+        While waitBlue = 0
+            If timeout > 10 Then 
+                TracePrint "Waitblue timeout"
+                Goto Nextone
+            Else 
+                Dim bX,bY
+                FindMultiColor 0,0,0,0, "FFFFFF","15|-1|FFFFFF,85|0|FEFFFF,41|-2|FEFFFF", 0, 1, bX, bY
+                If bX > -1 And bY > -1 Then
+                    waitBlue = 1
+                    Delay 50
+                    Color1 = GetPixelColor(440, 1200)
+                    Color2 = GetPixelColor(500, 1180)
+                    TracePrint "Get 2 colors:"&Color1&" "&Color2
+                    Call swp(1)
+                    Delay 800
+                Else 
+                    timeout = timeout + 1
+                    TracePrint "Not blue yet"
+                    Delay 500
+                End If
+            End If
+        Wend
+        timeout = 0
+        waitPur = 0
+        While waitPur = 0
+            If timeout > 20 Then 
+                bluereboot = bluereboot + 1
+                Goto Nextone
+            Else 
+                Dim bagfullX,bagfullY
+                FindMultiColor 180,500,650,800,"FFFFFF","61|-9|FFFFFF,142|1|FFFFFF,55|2|B07FE3,109|2|B07FE3", 1, 1, bagfullX, bagfullY
+                If bagfullX > -1 And bagfullY > -1 Then
+                    TracePrint "Bag is Full..."
+                    Call tapX()
+                    Delay 100
+                    Call cleanbag(A)
+                    Goto Nextone
+                End If
+                If CmpColorEx("251|636|B27FE4-050204,441|617|B27FE4-050204", 1) = 1 Then 
+                    TracePrint "Later"
+                    Goto Nextone
+                End If
+                Color3 = GetPixelColor(440, 1200)
+                Color4 = GetPixelColor(500, 1180)
+                TracePrint "Get Color3,4: "&Color3&","&Color4
+                If Color3 <> Color1 And Color4 <> Color2 Then 
+                    Call tapX()
+                    waitPur = 1
+                    Delay 1000
+                    TracePrint "Collected:"& cX & "," & cY
+                Else 
+                    TracePrint "Not purple yet"
+                    Call swp(1)
+                    timeout = timeout + 1
+                    Delay 400
+                End If
+            End If
+        Wend
+        Rem Nextone
+        Call checksta()
+    Next
+End Sub
+
+
+Sub Main()
+    While times < max
+        indexi = 0
+        Dim restart
+        restart = times mod 15
+        If restart = 14 Then 
+            KillApp "com.nianticlabs.pokemongo"
+            Delay 2000
+            Call login()
+            Delay 3000
+        End If
+        For Each Cords In CoordsLine
+            Dim Coords
+            Coords = Split(Cords, ",")
+            If cint(coords(0)) = 0 Then 
+                Goto skipthis
+            End If
+            Call nextspot(indexi)
+            Call waitstop()
+            Call collect(Coords)
+            Delay 200
+            If indexi < 12 Then 
+                Call catch()
+                Call turn()
+                Delay 500
+                Call catch()
+                If indexi = 2 Then 
+                    Call turn()
+                    Delay 500
+                    Call catch()
+                    Call turn()
+                    Delay 500
+                    Call catch()
+                End If       		
+            End If	
+            Rem skipthis
+            indexi = indexi + 1
+        Next
+        times = times + 1
+    Wend
+End Sub
+
+If CmpColorEx(page(8), 1) = 1 Then
+    Delay 50
+    RunApp "FakeGPS (com.incorporateapps.fakegps)"
+    Delay 2000
+    Call login()
+End If
+
+Log.Open
+Call Main()
+Log.Close
+
+
+
+//For Each poki In pokemon
+// TracePrint poki
+// Delay 50
+//    Next
