@@ -1,6 +1,3 @@
-As bots are down at the moment, i'd like to share a macro I wrote few weeks ago when there were no bots around... 
-more detailed how-to with images on settings will come by late tmrw for those who need it.
-
 This is how it looks like - [url]https://youtu.be/i-c1b6sbzfs[/url]
 
 It is based on an app which can simulate Tap/Touch behavior by finding pixel color so literally it can do almost everything you can with your phone. But as a consequence it is not productive, something like 10~15k /h, comparing with any of the bot on forum which talking directly to api instead of simulating. It can do only what you asked, and give you some supply on the pokeballs for sniping, so say, better than going outside and catch'em all on your own.
