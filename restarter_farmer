@@ -10,6 +10,9 @@ TimeRestart =
 PokeFarmerPath =
 PTC = 1
 Google = 0
+Delay_Launch_StartBot = 4000
+Delay_StartBot_ChooseAccount = 1500
+Delay_ChooseAccount_PTCGoogle = 1000
 	)
 	FileAppend, %content%, config.ini
 	ExitApp
@@ -19,25 +22,30 @@ iniRead, TimeRestart, config.ini, Settings, TimeRestart
 iniRead, PokeFarmerPath, config.ini, Settings, PokeFarmerPath
 iniRead, ptc, config.ini, Settings, PTC
 iniRead, google, config.ini, Settings, Google
+iniRead, Delay_Launch_StartBot, config.ini, Settings, Delay_Launch_StartBot
+iniRead, Delay_StartBot_ChooseAccount, config.ini, Settings, Delay_StartBot_ChooseAccount
+iniRead, Delay_ChooseAccount_PTCGoogle, config.ini, Settings, Delay_ChooseAccount_PTCGoogle
+
 
 if ptc = 1
 	coordy := 56
 else
 	coordy := 86
 
+
 Loop
 {
 	TrayTip, Starting Service..., Pokefarmer
 	Run,%PokeFarmerPath%,,,pid1
-	sleep,3000
+	sleep,%Delay_Launch_StartBot%
 	IfWinNotActive, ahk_pid %pid1%
 		WinActivate, ahk_pid %pid1%
 	WinWaitActive,ahk_pid %pid1%
 	MouseClick, left, 228, 137, 1
-	Sleep, 1000
+	Sleep, %Delay_StartBot_ChooseAccount%
 	WinActivate, Pokefarmer
 	MouseClick, left, 183, %coordy%, 1
-	Sleep, 500
+	Sleep, %Delay_ChooseAccount_PTCGoogle%
 	Send, {Space}
 	sleep, %TimeRestart%
 	IfWinExist, ahk_pid %pid1%
