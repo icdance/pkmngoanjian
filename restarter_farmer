@@ -1,0 +1,50 @@
+#Persistent
+#SingleInstance
+
+IfNotExist, config.ini
+{
+	content =
+	(
+	[Settings]
+TimeRestart =
+PokeFarmerPath =
+PTC = 1
+Google = 0
+	)
+	FileAppend, %content%, config.ini
+	ExitApp
+}
+
+iniRead, TimeRestart, config.ini, Settings, TimeRestart
+iniRead, PokeFarmerPath, config.ini, Settings, PokeFarmerPath
+iniRead, ptc, config.ini, Settings, PTC
+iniRead, google, config.ini, Settings, Google
+
+if ptc = 1
+	coordy := 56
+else
+	coordy := 86
+
+Loop
+{
+	TrayTip, Starting Service..., Pokefarmer
+	Run,%PokeFarmerPath%,,,pid1
+	sleep,3000
+	IfWinNotActive, ahk_pid %pid1%
+		WinActivate, ahk_pid %pid1%
+	WinWaitActive,ahk_pid %pid1%
+	MouseClick, left, 228, 137, 1
+	Sleep, 1000
+	WinActivate, Pokefarmer
+	MouseClick, left, 183, %coordy%, 1
+	Sleep, 500
+	Send, {Space}
+	sleep, %TimeRestart%
+	IfWinExist, ahk_pid %pid1%
+		WinKill, ahk_pid %pid1%
+	Sleep, 1000
+}	
+return
+
+^!e::
+ExitApp
