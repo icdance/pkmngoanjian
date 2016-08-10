@@ -1,29 +1,38 @@
+//screen page
 Dim Page(15)
 Page(0)="632|1046|96871C,638|1046|96871C,643|1047|96871C" //fighting
 Page(1)="355|1182|96871C,365|1196|96871C,377|1194|96871C" //finish fight
 Page(2)="620|1182|998822,629|1204|988722,647|1181|998822" //prepare
-page(3)="622|1193|998822,645|1190|96851F,622|1210|998822" //za
-page(4)="635|1185|96871C,636|1219|96851F,609|1190|907F2A" //jumpback
+page(3)="631|1218|96851F,635|1186|96871C,634|1168|96851F" //jumpback1 same color
+page(4)="617|1208|998822,633|1218|93821C,651|1176|998822" //jumpback2 diff color
+page(5)="318|1167|4539FF,395|1168|FFFFFF,359|1167|B9B9B9" //main
 
+//waitpage
 Sub waitpage(n)
     TracePrint "Waiting Page: "&n
     Dim timeout
     timeout = 1
-    While timeout > 0 and timeout < 150
-        If CmpColorEx(page(n), 1) = 1 Then
+    While timeout > 0 and timeout < 600
+        If CmpColorEx(page(n), 1) = 1 Then 
+        	ShowMessage "Fight!!!"
             Delay 50
             Exit Sub
         Else
             Delay 100
-            If CmpColorEx(page(4), 1) = 1 Then 
-				ShowMessage "Jumpback"
-            	Exit Sub
-        	End If
+            For i = 3 To 5
+            	If CmpColorEx(page(i), 1) = 1 Then 
+            		If i = 5 Then 
+            			ShowMessage "Quit Battle"
+            		End If
+            		Exit Sub
+        		End If
+            Next
             timeout = timeout + 1
         End If
     Wend
 End Sub
 
+//special attack
 Sub max()
 	Dim i
 	i = 0
@@ -37,11 +46,11 @@ Sub max()
 	TouchUp 1
 End Sub
 
+//start attack
 Sub fight()
 	Dim notstop
 	notstop = 1
 	Call waitpage(0)
-	ShowMessage "Fight!!!"
 	While notstop = 1
 		Tap 550, 450
 		Delay 100
@@ -50,16 +59,21 @@ Sub fight()
 			Call max()
 		End If
 		If CmpColorEx(page(1), 1) = 1 Then 
-			ShowMessage "Finished"
+			ShowMessage "Finish Battle"
             Exit Sub
         End If
-		If CmpColorEx(page(4), 1) = 1 Then 
-			ShowMessage "Jumpback"
-            Exit Sub
-        End If
+        For i = 3 To 5
+            If CmpColorEx(page(i), 1) = 1 Then 
+            	If i = 5 Then 
+            		ShowMessage "Quit Battle"
+            	End If
+            	Exit Sub
+        	End If
+        Next
 	Wend
 End Sub
 
+// main
 Dim t
 t=1
 While t=1
