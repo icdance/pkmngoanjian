@@ -1,0 +1,71 @@
+Dim Page(15)
+Page(0)="632|1046|96871C,638|1046|96871C,643|1047|96871C" //fighting
+Page(1)="355|1182|96871C,365|1196|96871C,377|1194|96871C" //finish fight
+Page(2)="620|1182|998822,629|1204|988722,647|1181|998822" //prepare
+page(3)="622|1193|998822,645|1190|96851F,622|1210|998822" //za
+page(4)="635|1185|96871C,636|1219|96851F,609|1190|907F2A" //jumpback
+
+Sub waitpage(n)
+    TracePrint "Waiting Page: "&n
+    Dim timeout
+    timeout = 1
+    While timeout > 0 and timeout < 150
+        If CmpColorEx(page(n), 1) = 1 Then
+            Delay 50
+            Exit Sub
+        Else
+            Delay 100
+            If CmpColorEx(page(4), 1) = 1 Then 
+				ShowMessage "Jumpback"
+            	Exit Sub
+        	End If
+            timeout = timeout + 1
+        End If
+    Wend
+End Sub
+
+Sub max()
+	Dim i
+	i = 0
+	While i < 10
+		Tap 550, 450
+		Delay 100
+		i = i+1
+	Wend
+	TouchDown 550, 450,1
+	Delay 2000
+	TouchUp 1
+End Sub
+
+Sub fight()
+	Dim notstop
+	notstop = 1
+	Call waitpage(0)
+	ShowMessage "Fight!!!"
+	While notstop = 1
+		Tap 550, 450
+		Delay 100
+		If CmpColorEx("154|175|FCCA55-101010,154|177|FCCA55-101010", 1) = 1 Then 
+			ShowMessage "Hey~Ya!!"
+			Call max()
+		End If
+		If CmpColorEx(page(1), 1) = 1 Then 
+			ShowMessage "Finished"
+            Exit Sub
+        End If
+		If CmpColorEx(page(4), 1) = 1 Then 
+			ShowMessage "Jumpback"
+            Exit Sub
+        End If
+	Wend
+End Sub
+
+Dim t
+t=1
+While t=1
+	If CmpColorEx(page(2), 1) = 1 Then 
+	    ShowMessage "Preparing..."
+        Call fight()
+    End If
+    Delay 2000
+Wend
