@@ -1,0 +1,37 @@
+- Information :
+This is another simple script for pogo game, which is based on a app that can simulate Tap/Touch behavior by finding pixel color. it is using the same app as my last script post (Auto-Farm, Catch, Inventory Managing Script -- Configurable), but eaiser to set up.
+
+Youtube video#1 new demo on Nox ; video#2 demo on android phone ; video #3 AutoBattler for iPhone
+NOTE: This is NOT a bot, or a 3rd party app that cause you banned, and it won't dodge attacks or snipe pokemon at a gym. It is just an app that help you tap the screen, more like a saver for your finger/mouse.  
+
+
+- Update : 
+GMT+10 21:43pm 13/08/2016 Single apk file for easy install, instructions updated below.
+GMT+10 01:48pm 14/08/2016 Update 1080p and android phone support.
+GMT+10 03:18am 15/08/2016 Update video on iphone AutoBattler for iPhone
+
+- How it works :
+after run, it will show a "preparing.." when there is "GO" sign on your screen. Once you tap the "GO" to start the battle, it will start quick attack continuously and will unleash the special attack automatically.
+- Requirements : 
+a. android device/ Nox with resolution 720x1280 or 1080x1920.
+b. navigation bar (virtual keys) need to be disabled for this script to work. (see Problem#1)
+- Instruction for Android :
+a. download the apk from MEGA and install.
+b. if you are using Nox, make sure your navigation bar (virtual keys) is not at the bottom.
+c. run AutoBattler and click the long blue button on the bottom, it will minimize itself.
+d. click the minimized icon and hit the PLAY button to start script.	AutoBattler -  a Script for GYM Battle-auto-png
+Done. come to a gym in pogo game, select your pokemon for battle (it will show "preparing... " before or after you choose your pokemon, which indicates you're ready to go), Tap "GO" and wait battle end.
+
+
+- Downloads :
+apk MEGA
+
+
+tips#1 you can still dodge attacks by swipe your phone while using this script.
+tips#2 volume down button can enable/disable the script.
+tips#3 script will automatically stop when a phone call comes in / you shake your phone.
+
+
+- Problems : 
+#1. you need to hide your navigation bar to make it work. if there is no setting to disable it. you may install a free app in Play Store called "GMD Auto Hide Soft Keys" which required root access.
+#2. For those who only need the script code, copy the code with the method in my last post with link: https://github.com/icdance/pkmngoanj...er/gym-nox0720
